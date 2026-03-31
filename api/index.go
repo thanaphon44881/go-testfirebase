@@ -16,7 +16,7 @@ import (
 
 var app *fiber.App
 
-func init() {
+func initApp() {
 	app = fiber.New()
 
 	// 🔥 ใช้ ENV แทนไฟล์ json
@@ -42,5 +42,6 @@ func init() {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+	initApp()
 	adaptor.FiberApp(app)(w, r)
 }
