@@ -36,6 +36,9 @@ func init() {
 	app.Post("/user", adphttp.CreatUser)
 	app.Get("/users", adphttp.GetUsers)
 	app.Get("/users/:id", adphttp.GetUserByID)
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("API WORKING 🚀")
+	})
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
