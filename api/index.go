@@ -19,12 +19,21 @@ var app *fiber.App
 func init() {
 	app = fiber.New()
 	cred := os.Getenv("FIREBASE_CREDENTIALS")
+	if cred == "" {
+		panic("FIREBASE_CREDENTIALS is missing")
+	}
+
 	opt := option.WithCredentialsJSON([]byte(cred))
 
-	fbApp, err := firebase.NewApp(context.Background(), nil, opt)
+	conf := &firebase.Config{
+		ProjectID: "apitest-2b035",
+	}
+
+	fbApp, err := firebase.NewApp(context.Background(), conf, opt)
 	if err != nil {
 		panic(err)
 	}
+	opt := option.WithCredentialsJSON([]byte(cred))
 
 	fireDB := adapter.NewFireDB(fbApp)
 	adpDb := adapter.NewuserDB(fireDB)
