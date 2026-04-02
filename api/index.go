@@ -68,9 +68,9 @@ func init() {
 	srv := service.NewService(adpDb)
 	adphttp := adapter.Newhttpuser(srv)
 
-	app.Post("/user", adphttp.CreatUser)
-	app.Get("/users", adphttp.GetUsers)
-	app.Get("/users/:id", adphttp.GetUserByID)
+	app.Get("/api/users", adphttp.GetUsers)
+	app.Post("/api/user", adphttp.CreatUser)
+	app.Get("/api/users/:id", adphttp.GetUserByID)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("API WORKING 🚀")
