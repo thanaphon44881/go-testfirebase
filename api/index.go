@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/thanaphon44881/TestUser/adapter"
-	"github.com/thanaphon44881/TestUser/service"
+	"github.com/thanaphon44881/go-testfirebase/adapter"
+	"github.com/thanaphon44881/go-testfirebase/service"
 
 	firebase "firebase.google.com/go"
 	"github.com/gofiber/adaptor/v2"
