@@ -16,10 +16,8 @@ import (
 
 var app *fiber.App
 
-func initApp() {
+func init() {
 	app = fiber.New()
-
-	// 🔥 ใช้ ENV แทนไฟล์ json
 	cred := os.Getenv("FIREBASE_CREDENTIALS")
 	opt := option.WithCredentialsJSON([]byte(cred))
 
@@ -42,6 +40,5 @@ func initApp() {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	initApp()
 	adaptor.FiberApp(app)(w, r)
 }
