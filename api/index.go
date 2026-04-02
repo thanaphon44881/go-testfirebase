@@ -9,7 +9,7 @@ import (
 
 	"github.com/thanaphon44881/go-testfirebase/adapter"
 	"github.com/thanaphon44881/go-testfirebase/service"
-
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	firebase "firebase.google.com/go"
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
@@ -29,6 +29,11 @@ var app *fiber.App
 func init() {
 	app = fiber.New()
 
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*", 
+		AllowHeaders: "Origin, Content-Type, Accept",
+		AllowMethods: "GET,POST,PUT,DELETE",
+	}))
 	projectID := os.Getenv("FIREBASE_PROJECT_ID")
 	clientEmail := os.Getenv("FIREBASE_CLIENT_EMAIL")
 	privateKey := os.Getenv("FIREBASE_PRIVATE_KEY")
@@ -72,7 +77,7 @@ func init() {
 	app.Post("/api/user", adphttp.CreatUser)
 	app.Get("/api/users/:id", adphttp.GetUserByID)
 
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/api/", func(c *fiber.Ctx) error {
 		return c.SendString("API WORKING 🚀")
 	})
 }
