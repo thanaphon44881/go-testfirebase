@@ -1,7 +1,7 @@
 package adapter
 
 import (
-	"TestUser/repository"
+	"github.com/thanaphon44881/go-testfirebase/repository"
 	"context"
 	"strconv"
 )

@@ -1,8 +1,8 @@
 package adapter
 
 import (
-	"TestUser/repository"
-	"TestUser/service"
+	"github.com/thanaphon44881/go-testfirebase/repository"
+	"github.com/thanaphon44881/go-testfirebase/service"
 
 	"github.com/gofiber/fiber/v2"
 )

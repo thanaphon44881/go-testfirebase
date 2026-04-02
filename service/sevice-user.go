@@ -1,7 +1,7 @@
 package service
 
 import (
-	"TestUser/repository"
+	"github.com/thanaphon44881/go-testfirebase/repository"
 )
 
 type ServiceUser interface {
