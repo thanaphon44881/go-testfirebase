@@ -6,7 +6,7 @@ import (
 	"os"
 	"github.com/thanaphon44881/go-testfirebase/adapter"
 	"github.com/thanaphon44881/go-testfirebase/service"
-
+	"fmt"
 	firebase "firebase.google.com/go"
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
