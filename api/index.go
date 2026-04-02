@@ -2,16 +2,27 @@ package handler
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"os"
+	"strings"
+
 	"github.com/thanaphon44881/go-testfirebase/adapter"
 	"github.com/thanaphon44881/go-testfirebase/service"
-	"fmt"
+
 	firebase "firebase.google.com/go"
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
 	"google.golang.org/api/option"
 )
+
+type FirebaseCred struct {
+	Type        string `json:"type"`
+	ProjectID   string `json:"project_id"`
+	PrivateKey  string `json:"private_key"`
+	ClientEmail string `json:"client_email"`
+	TokenURI    string `json:"token_uri"`
+}
 
 var app *fiber.App
 
@@ -22,17 +33,30 @@ func init() {
 	clientEmail := os.Getenv("FIREBASE_CLIENT_EMAIL")
 	privateKey := os.Getenv("FIREBASE_PRIVATE_KEY")
 
+	if privateKey == "" {
+		panic("PRIVATE KEY MISSING")
+	}
+
+	privateKey = strings.ReplaceAll(privateKey, "\\n", "\n")
+
+	cred := FirebaseCred{
+		Type:        "service_account",
+		ProjectID:   projectID,
+		PrivateKey:  privateKey,
+		ClientEmail: clientEmail,
+		TokenURI:    "https://oauth2.googleapis.com/token",
+	}
+
+	credBytes, err := json.Marshal(cred)
+	if err != nil {
+		panic(err)
+	}
+
+	opt := option.WithCredentialsJSON(credBytes)
+
 	conf := &firebase.Config{
 		ProjectID: projectID,
 	}
-
-	opt := option.WithCredentialsJSON([]byte(fmt.Sprintf(`{
-		"type": "service_account",
-		"project_id": "%s",
-		"private_key": "%s",
-		"client_email": "%s",
-		"token_uri": "https://oauth2.googleapis.com/token"
-	}`, projectID, privateKey, clientEmail)))
 
 	fbApp, err := firebase.NewApp(context.Background(), conf, opt)
 	if err != nil {
