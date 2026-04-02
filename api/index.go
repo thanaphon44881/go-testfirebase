@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"TestUser/adapter"
-	"TestUser/service"
+	"github.com/yourname/TestUser/adapter"
+	"github.com/yourname/TestUser/service"
 
 	firebase "firebase.google.com/go"
 	"github.com/gofiber/adaptor/v2"
@@ -18,6 +18,7 @@ var app *fiber.App
 
 func init() {
 	app = fiber.New()
+
 	cred := os.Getenv("FIREBASE_CREDENTIALS")
 	if cred == "" {
 		panic("FIREBASE_CREDENTIALS is missing")
@@ -33,7 +34,6 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	opt := option.WithCredentialsJSON([]byte(cred))
 
 	fireDB := adapter.NewFireDB(fbApp)
 	adpDb := adapter.NewuserDB(fireDB)
@@ -43,6 +43,7 @@ func init() {
 	app.Post("/user", adphttp.CreatUser)
 	app.Get("/users", adphttp.GetUsers)
 	app.Get("/users/:id", adphttp.GetUserByID)
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("API WORKING 🚀")
 	})
