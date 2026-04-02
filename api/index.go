@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 	"os"
-
+	"strings"
 	"github.com/thanaphon44881/go-testfirebase/adapter"
 	"github.com/thanaphon44881/go-testfirebase/service"
 
@@ -20,10 +20,10 @@ func init() {
 	app = fiber.New()
 
 	cred := os.Getenv("FIREBASE_CREDENTIALS")
+	cred = strings.ReplaceAll(cred, "\\\\n", "\\n")
 	if cred == "" {
 		panic("FIREBASE_CREDENTIALS is missing")
 	}
-
 	opt := option.WithCredentialsJSON([]byte(cred))
 
 	conf := &firebase.Config{
