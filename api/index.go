@@ -4,7 +4,6 @@ import (
 	"context"
 	"net/http"
 	"os"
-	"strings"
 	"github.com/thanaphon44881/go-testfirebase/adapter"
 	"github.com/thanaphon44881/go-testfirebase/service"
 
