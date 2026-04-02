@@ -19,16 +19,21 @@ var app *fiber.App
 func init() {
 	app = fiber.New()
 
-	cred := os.Getenv("FIREBASE_CREDENTIALS")
-	cred = strings.ReplaceAll(cred, "\\\\n", "\\n")
-	if cred == "" {
-		panic("FIREBASE_CREDENTIALS is missing")
-	}
-	opt := option.WithCredentialsJSON([]byte(cred))
+	projectID := os.Getenv("FIREBASE_PROJECT_ID")
+	clientEmail := os.Getenv("FIREBASE_CLIENT_EMAIL")
+	privateKey := os.Getenv("FIREBASE_PRIVATE_KEY")
 
 	conf := &firebase.Config{
-		ProjectID: "apitest-2b035",
+		ProjectID: projectID,
 	}
+
+	opt := option.WithCredentialsJSON([]byte(fmt.Sprintf(`{
+		"type": "service_account",
+		"project_id": "%s",
+		"private_key": "%s",
+		"client_email": "%s",
+		"token_uri": "https://oauth2.googleapis.com/token"
+	}`, projectID, privateKey, clientEmail)))
 
 	fbApp, err := firebase.NewApp(context.Background(), conf, opt)
 	if err != nil {
