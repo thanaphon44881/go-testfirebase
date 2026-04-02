@@ -1,4 +1,4 @@
-module TestUser
+module github.com/thanaphon44881/go-testfirebase
 
 go 1.25.5
 
